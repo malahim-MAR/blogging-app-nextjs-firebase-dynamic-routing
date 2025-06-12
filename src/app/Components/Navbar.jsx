@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const Navbar = () => {
@@ -72,9 +73,9 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-end">
-        <a className="btn bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200">
-          Button
-        </a>
+        <Link href="/NewBlog" className="btn bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200">
+            Button
+        </Link>
       </div>
     </div>
   );
