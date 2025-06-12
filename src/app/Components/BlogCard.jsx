@@ -1,6 +1,47 @@
 import React from "react";
 
 const BlogCard = () => {
+  useEffect(() => {
+    // 1. Create query reference
+    const notesQuery = query(
+      collection(db, "MyBlogs"),
+      // orderBy("noteTime", "desc"),
+      where("userEmail", "==", userEmail.email)
+    );
+
+    // 2. Set up real-time listener
+    const unsubscribe = onSnapshot(
+      notesQuery,
+      (snapshot) => {
+        // Handle successful data fetch
+        const notes = [];
+
+        if (snapshot.empty) {
+          console.log("No notes found");
+          setMyNoteData([]);
+        } else {
+          snapshot.forEach((doc) => {
+            notes.push({ id: doc.id, ...doc.data() });
+          });
+          setMyNoteData(notes);
+        }
+
+        setLoading(false);
+      },
+      (error) => {
+        // Handle errors
+        console.error("Firestore error:", error);
+        setError("Failed to load notes");
+        setLoading(false);
+      }
+    );
+
+    // 3. Clean up listener when component unmounts
+    return () => {
+      console.log("Unsubscribing from Firestore");
+      unsubscribe();
+    };
+  }, []);
   return (
     <>
       <div className="card lg:card-side bg-gray-100 h-auto shadow-sm ">
