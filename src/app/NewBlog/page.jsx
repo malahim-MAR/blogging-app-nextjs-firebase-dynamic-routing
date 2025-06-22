@@ -94,7 +94,7 @@ import { db } from "../lib/firebase";
 const Page = () => {
   const [title, setTitle] = useState("");
   const [imageLink, setImageLink] = useState("");
-  const [tags, setTags] = useState("");
+  const [tags, setTags] = useState(['']);
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
