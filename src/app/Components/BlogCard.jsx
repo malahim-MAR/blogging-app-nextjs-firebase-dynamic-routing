@@ -160,7 +160,7 @@ const BlogCard = () => {
             <div className="card-body">
               <h2 className="card-title text-2xl">{blog.BlogTitle}</h2>
 
-              <div className="flex flex-wrap gap-2 mb-2">
+              {/* <div className="flex flex-wrap gap-2 mb-2">
                 {blog.BlogTags?.map((tag, index) => (
                   <span
                     key={index}
@@ -169,7 +169,7 @@ const BlogCard = () => {
                     {tag}
                   </span>
                 ))}
-              </div>
+              </div> */}
 
               <p className="line-clamp-3 mb-4">{blog.BlogContent}</p>
 
