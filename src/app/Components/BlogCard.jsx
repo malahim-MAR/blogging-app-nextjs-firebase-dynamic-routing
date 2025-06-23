@@ -104,6 +104,7 @@ const BlogCard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+
   useEffect(() => {
     const notesQuery = query(
       collection(db, "MyBlogs"),
@@ -194,10 +195,10 @@ const BlogCard = () => {
                     day: 'numeric'
                   })}
                 </time>
-
                 <p className="text-lg mb-8 line-clamp-3">
-                  {blog.BlogContent}
+                  {blog.BlogContent.slice(0, 250)}...
                 </p>
+
 
                 <button className="btn btn-primary px-8 py-3 text-lg">
                   Read More
