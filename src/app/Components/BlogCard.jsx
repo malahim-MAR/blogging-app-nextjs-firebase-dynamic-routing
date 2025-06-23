@@ -103,12 +103,13 @@ const BlogCard = () => {
   const [blogData, setBlogData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
   useEffect(() => {
     const notesQuery = query(
       collection(db, "MyBlogs"),
       orderBy("BlogPublishTime", "desc")
     );
-    
+
     const unsubscribe = onSnapshot(
       notesQuery,
       (snapshot) => {
@@ -127,60 +128,83 @@ const BlogCard = () => {
         setLoading(false);
       }
     );
-    console.log(blogData);
 
     return () => unsubscribe();
   }, []);
 
-  if (loading) return <div className="text-center py-8">Loading blogs...</div>;
-  if (error)
-    return <div className="text-red-500 text-center py-8">{error}</div>;
+  if (loading) return (
+    <div className="h-screen flex items-center justify-center">
+      <div className="text-center">
+        <span className="loading loading-ring loading-lg"></span>
+        <p className="mt-4 text-lg">Loading blogs...</p>
+      </div>
+    </div>
+  );
+
+  if (error) return (
+    <div className="h-screen flex items-center justify-center text-red-500 text-xl">
+      {error}
+    </div>
+  );
 
   return (
-    <div className="space-y-6">
+    <div className="snap-container  h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth scrollbar-hide">
       {blogData.length === 0 ? (
-        <p className="text-center py-8">No blog posts found</p>
+        <div className="h-screen flex items-center justify-center snap-start">
+          <p className="text-2xl text-gray-500">No blog posts found</p>
+        </div>
       ) : (
         blogData.map((blog) => (
-          <div
+          <section
             key={blog.id}
-            className="card lg:card-side bg-gray-100 shadow-sm hover:shadow-md transition-shadow"
+            className="h-screen w-full snap-start snap-always flex flex-col md:flex-row"
           >
-            <figure className="flex-shrink-0">
+            {/* Image Section (40%) */}
+            <div className="w-full md:w-2/5 h-2/5 md:h-full overflow-hidden">
               <img
-                src={
-                  blog.BlogImageLink ||
-                  "https://via.placeholder.com/300x200?text=No+Image"
-                }
+                src={blog.BlogImageLink || "https://via.placeholder.com/800x1000?text=No+Image"}
                 alt={blog.BlogTitle}
-                className="w-full h-64 lg:h-full lg:w-64 object-cover"
+                className="w-full h-full object-cover object-center"
               />
-            </figure>
+            </div>
 
-            <div className="card-body">
-              <h2 className="card-title text-2xl">{blog.BlogTitle}</h2>
+            {/* Content Section (60%) */}
+            <div className="w-full md:w-3/5 h-3/5 md:h-full flex items-center justify-center p-6 md:p-12 bg-base-100">
+              <div className="max-w-2xl">
+                <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                  {blog.BlogTitle}
+                </h1>
 
-              {/* <div className="flex flex-wrap gap-2 mb-2">
-                {blog.BlogTags?.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="badge badge-outline badge-primary"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div> */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {blog.BlogTags}
+                  {/* {blog.BlogTags?.map((tag, index) => (
+                    <span 
+                      key={index} 
+                      className="badge badge-primary badge-outline"
+                    >
+                      {tag}
+                    </span>
+                  ))} */}
+                </div>
 
-              <p className="line-clamp-3 mb-4">{blog.BlogContent}</p>
-
-              <div className="card-actions justify-between items-center">
-                <time className="text-sm text-gray-500">
-                  {blog.BlogPublishTime?.toDate().toLocaleDateString()}
+                <time className="text-gray-500 block mb-6">
+                  {blog.BlogPublishTime?.toDate().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
                 </time>
-                <button className="btn btn-primary">Read More</button>
+
+                <p className="text-lg mb-8 line-clamp-3">
+                  {blog.BlogContent}
+                </p>
+
+                <button className="btn btn-primary px-8 py-3 text-lg">
+                  Read More
+                </button>
               </div>
             </div>
-          </div>
+          </section>
         ))
       )}
     </div>

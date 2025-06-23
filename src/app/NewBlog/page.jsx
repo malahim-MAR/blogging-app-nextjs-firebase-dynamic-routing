@@ -213,9 +213,8 @@ const Page = () => {
             <div className="pt-4">
               <button
                 type="submit"
-                className={`btn btn-primary w-full text-lg ${
-                  loading ? "btn-disabled" : ""
-                }`}
+                className={`btn btn-primary w-full text-lg ${loading ? "btn-disabled" : ""
+                  }`}
                 disabled={loading}
               >
                 {loading ? (
