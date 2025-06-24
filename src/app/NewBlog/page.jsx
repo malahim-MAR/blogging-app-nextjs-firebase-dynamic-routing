@@ -240,6 +240,7 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import React, { useState } from "react";
 import { db } from "../lib/firebase";
 import { Inter } from 'next/font/google';
+import Link from "next/link";
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'] });
 
@@ -294,126 +295,136 @@ const Page = () => {
   };
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 py-12 px-4 ${inter.className}`}>
-      <div className="max-w-3xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 mb-8">
-          <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
-            Create New Blog Post
-          </h1>
+    <>
+      <div className={`min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 py-12 px-4 ${inter.className}`}>
+        <Link href={'/'} style={{ width: '320px' }} className=" px-5 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-white rounded-lg flex items-center gap-2 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+          </svg>
+          Back to Website
+        </Link>
 
-          {error && (
-            <div className="bg-red-50 text-red-700 p-4 rounded-lg mb-6 flex items-center">
-              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-              </svg>
-              {error}
-            </div>
-          )}
+        <div className="max-w-3xl mx-auto">
+          <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 mb-8">
 
-          <form onSubmit={handlePublish} className="space-y-6">
-            <div className="space-y-2">
-              <label className="block text-lg font-medium text-gray-700">
-                Blog Title <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Enter blog title"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </div>
+            <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
+              Create New Blog Post
+            </h1>
 
-            <div className="space-y-2">
-              <label className="block text-lg font-medium text-gray-700">
-                Featured Image URL
-              </label>
-              <input
-                type="text"
-                placeholder="https://example.com/image.jpg"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                value={imageLink}
-                onChange={(e) => setImageLink(e.target.value)}
-              />
-            </div>
+            {error && (
+              <div className="bg-red-50 text-red-700 p-4 rounded-lg mb-6 flex items-center">
+                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                {error}
+              </div>
+            )}
 
-            <div className="space-y-2">
-              <label className="block text-lg font-medium text-gray-700">
-                Tags <span className="text-red-500">*</span>
-                <span className="text-sm text-gray-500 ml-2">(Select up to 3)</span>
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {availableTags.map(tag => (
-                  <button
-                    key={tag}
-                    type="button"
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedTags.includes(tag)
+            <form onSubmit={handlePublish} className="space-y-6">
+              <div className="space-y-2">
+                <label className="block text-lg font-medium text-gray-700">
+                  Blog Title <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter blog title"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-lg font-medium text-gray-700">
+                  Featured Image URL
+                </label>
+                <input
+                  type="text"
+                  placeholder="https://example.com/image.jpg"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  value={imageLink}
+                  onChange={(e) => setImageLink(e.target.value)}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-lg font-medium text-gray-700">
+                  Tags <span className="text-red-500">*</span>
+                  <span className="text-sm text-gray-500 ml-2">(Select up to 3)</span>
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {availableTags.map(tag => (
+                    <button
+                      key={tag}
+                      type="button"
+                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedTags.includes(tag)
                         ? 'bg-blue-600 text-white shadow-md'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    onClick={() => toggleTag(tag)}
-                  >
-                    {tag}
-                  </button>
-                ))}
-              </div>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {selectedTags.map(tag => (
-                  <span
-                    key={tag}
-                    className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center"
-                  >
-                    {tag}
-                    <button
-                      type="button"
-                      className="ml-2 text-blue-600 hover:text-blue-800"
+                        }`}
                       onClick={() => toggleTag(tag)}
                     >
-                      ×
+                      {tag}
                     </button>
-                  </span>
-                ))}
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {selectedTags.map(tag => (
+                    <span
+                      key={tag}
+                      className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center"
+                    >
+                      {tag}
+                      <button
+                        type="button"
+                        className="ml-2 text-blue-600 hover:text-blue-800"
+                        onClick={() => toggleTag(tag)}
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <label className="block text-lg font-medium text-gray-700">
-                Blog Content <span className="text-red-500">*</span>
-              </label>
-              <textarea
-                placeholder="Write your blog content here..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all h-64"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-              />
-            </div>
+              <div className="space-y-2">
+                <label className="block text-lg font-medium text-gray-700">
+                  Blog Content <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  placeholder="Write your blog content here..."
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all h-64"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                />
+              </div>
 
-            <div className="pt-4">
-              <button
-                type="submit"
-                disabled={loading}
-                className={`w-full py-3 px-6 rounded-lg text-white font-medium text-lg transition-all ${loading
+              <div className="pt-4">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className={`w-full py-3 px-6 rounded-lg text-white font-medium text-lg transition-all ${loading
                     ? 'bg-blue-400 cursor-not-allowed'
                     : 'bg-blue-600 hover:bg-blue-700 shadow-md hover:shadow-lg'
-                  }`}
-              >
-                {loading ? (
-                  <div className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Publishing...
-                  </div>
-                ) : (
-                  "Publish Post"
-                )}
-              </button>
-            </div>
-          </form>
+                    }`}
+                >
+                  {loading ? (
+                    <div className="flex items-center justify-center">
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Publishing...
+                    </div>
+                  ) : (
+                    "Publish Post"
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
