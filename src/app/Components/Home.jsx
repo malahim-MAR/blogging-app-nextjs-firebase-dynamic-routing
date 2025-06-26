@@ -8,7 +8,7 @@ const Home = () => {
       <div className="flex flex-col items-center">
         <div className="w-full max-w-4xl">
           <div className="carousel carousel-vertical rounded-box space-y-4 h-[600px]">
-            <div className="carousel-item h-80 lg:h-72 w-full transition-all duration-300 hover:shadow-xl">
+            <div className="carousel-item h-80 lg:h-72 w-full transition-all duration-300 hover:shadow-xl ">
               <BlogCard /> {/* ✅ Now it will fetch from Firestore */}
             </div>
           </div>

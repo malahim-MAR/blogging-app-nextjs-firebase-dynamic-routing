@@ -165,7 +165,7 @@ const BlogCard = () => {
   };
 
   return (
-    <div className={`snap-container h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth scrollbar-hide ${inter.className}`}>
+    <div className={`snap-container h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth scrollbar-hide pt-10 ${inter.className}`}>
       {blogData.length === 0 ? (
         <div className="h-screen flex flex-col items-center justify-center snap-start bg-gradient-to-br from-gray-50 to-gray-100">
           <div className="text-center max-w-md p-6">
@@ -233,11 +233,15 @@ const BlogCard = () => {
                   </h1>
 
                   <div className="prose max-w-none mb-8 text-gray-600">
-                    {blog.BlogContent.split('\n').map((paragraph, i) => (
+                    {
+
+                      blog.BlogContent.slice(0, 1200)
+                    }
+                    {/* {blog.BlogContent.split('\n').map((paragraph, i) => (
                       <p key={i} className="mb-4">
                         {paragraph}
                       </p>
-                    ))}
+                    ))} */}
                   </div>
 
                   <div className="flex flex-wrap gap-4">
