@@ -1,49 +1,3 @@
-// // src/app/Blog/[blogId]/Page.jsx
-// import { collection, query, where, getDocs } from "firebase/firestore";
-// import { db } from "../../lib/firebase";
-
-// async function getBlogPost(blogId) {
-//   // Convert URL parameter to number (if your BlogID is numeric)
-//   const idNumber = Number(blogId);
-//   console.log("Fetching blog post with ID:", blogId);
-//   // Query Firestore for matching BlogID
-//   const q = query(
-//     collection(db, "MyBlogs"),
-//     where("BlogId", "==", 535418)
-//   );
-
-//   const querySnapshot = await getDocs(q);
-
-//   if (querySnapshot.empty) {
-//     return null;
-//   }
-
-//   // Get first matching document
-//   const doc = querySnapshot.docs[0];
-//   return doc.data();
-// }
-
-// export default async function Page({ params }) {
-//   const { blogId } = params;
-//   const blogPost = await getBlogPost(blogId);
-
-//   return (
-//     <div>
-//       <h1>{blogPost?.BlogTitle || "No title"}</h1>
-//       <img
-//         src={blogPost?.BlogImageLink}
-//         alt={blogPost?.BlogTitle}
-//         style={{ maxWidth: '100%' }}
-//       />
-//       <div>
-//         {blogPost?.BlogContent?.split('\n').map((p, i) => (
-//           <p key={i}>{p}</p>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
 "use client";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
@@ -54,28 +8,24 @@ import { useParams, useRouter } from "next/navigation";
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'] });
 
 const Page = () => {
-  const params = useParams(); // Get all URL parameters
+  const params = useParams();
   const router = useRouter();
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [copied, setCopied] = useState(false);
+  const [readingTime, setReadingTime] = useState(0);
 
-  // Safely get blogId from parameters
-  // const blogId = params?.id;
   const id = params?.id;
-  const blogId = parseInt(id); // ✅ convert to number
-
-  console.log("params from useParams:", useParams());
+  const blogId = parseInt(id);
 
   useEffect(() => {
-    // Ensure blogId is present before querying
     if (!blogId) {
       setError("Missing blog ID in URL");
       setLoading(false);
       return;
     }
 
-    console.log("Fetching blog with ID:", blogId);
     const q = query(
       collection(db, "MyBlogs"),
       where("BlogId", "==", blogId)
@@ -86,7 +36,16 @@ const Page = () => {
       (snapshot) => {
         if (!snapshot.empty) {
           const doc = snapshot.docs[0];
-          setBlog({ id: doc.id, ...doc.data() });
+          const blogData = { id: doc.id, ...doc.data() };
+          setBlog(blogData);
+
+          // Calculate reading time
+          if (blogData?.BlogContent) {
+            const wordsPerMinute = 200;
+            const words = blogData.BlogContent.trim().split(/\s+/).length;
+            const time = Math.ceil(words / wordsPerMinute);
+            setReadingTime(time);
+          }
         } else {
           setError("No blog found with this ID.");
         }
@@ -110,70 +69,206 @@ const Page = () => {
     return [];
   };
 
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: blog?.BlogTitle || "Blog Post",
+        url: window.location.href
+      }).catch(console.error);
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   if (loading) return (
-    <div className={`h-screen flex items-center justify-center ${inter.className}`}>
+    <div className={`min-h-screen flex items-center justify-center bg-gray-50 ${inter.className}`}>
       <div className="text-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500 mx-auto mb-4"></div>
-        <p className="text-gray-600 text-lg">Loading blog...</p>
+        <div className="animate-pulse">
+          <div className="h-64 w-full max-w-3xl bg-gray-200 rounded-lg mb-8 mx-auto"></div>
+          <div className="flex flex-wrap gap-2 justify-center mb-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-8 w-24 bg-gray-200 rounded-full"></div>
+            ))}
+          </div>
+          <div className="h-10 w-64 bg-gray-200 rounded-lg mb-6 mx-auto"></div>
+          <div className="space-y-4 max-w-3xl mx-auto">
+            <div className="h-4 bg-gray-200 rounded w-full"></div>
+            <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+            <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+          </div>
+        </div>
       </div>
     </div>
   );
 
   if (error) return (
-    <div className={`h-screen flex items-center justify-center ${inter.className}`}>
-      <div className="bg-red-50 p-6 rounded-lg border border-red-200 max-w-md text-center">
-        <svg className="w-12 h-12 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
-        <h2 className="text-xl font-bold text-red-600 mb-2">Error</h2>
-        <p className="text-red-500">{error}</p>
+    <div className={`min-h-screen flex items-center justify-center bg-gray-50 ${inter.className}`}>
+      <div className="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full text-center border border-red-100">
+        <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h2 className="text-xl font-bold text-gray-800 mb-2">Blog Not Found</h2>
+        <p className="text-gray-600 mb-6">{error}</p>
         <button
-          onClick={() => router.push('/')}
-          className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+          onClick={() => router.push('/Blog')}
+          className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-300 flex items-center justify-center gap-2 w-full"
         >
-          Back to Home
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+          </svg>
+          Browse All Blogs
         </button>
       </div>
     </div>
   );
 
   const tags = processTags(blog?.BlogTags || []);
+  const publishDate = blog?.BlogPublishTime?.toDate().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
 
   return (
-    <div className={`min-h-screen bg-white py-10 px-4 md:px-20 ${inter.className}`}>
-      <div className="max-w-4xl mx-auto">
+    <div className={`min-h-screen bg-white ${inter.className}`}>
+      {/* Header Section with Cover Image */}
+      <div className="relative w-full h-[60vh] md:h-[100vh]">
         <img
           src={blog?.BlogImageLink || "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070"}
-          alt={blog?.BlogTitle || "Blog image"}
-          className="w-full h-96 object-cover rounded-lg mb-8"
+          alt={blog?.BlogTitle || "Blog cover image"}
+          className="w-full h-full object-cover"
           onError={(e) => {
             e.target.src = "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070";
           }}
         />
 
-        <div className="flex flex-wrap gap-2 mb-4">
-          {tags.map((tag, index) => (
-            <span key={index} className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
-              {tag}
-            </span>
-          ))}
-        </div>
+        {/* Glassmorphism Overlay */}
+        <div className="absolute bottom-0 left-0 right-0 z-20 px-4 md:px-8 pb-12 md:pb-16 max-w-6xl mx-auto">
+          <div className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/50">
+            <div className="flex flex-wrap gap-2 mb-4">
+              {tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className="px-3 py-1 bg-white text-blue-800 text-sm font-medium rounded-full border border-blue-100 shadow-sm"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
 
-        <time className="text-gray-500 text-sm block mb-4">
-          {blog?.BlogPublishTime?.toDate().toLocaleString('en-US', {
-            year: 'numeric', month: 'long', day: 'numeric',
-            hour: '2-digit', minute: '2-digit'
-          }) || "Unknown date"}
-        </time>
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
+              {blog?.BlogTitle || "Untitled Blog"}
+            </h1>
 
-        <h1 className="text-3xl font-bold mb-6 text-gray-800">
-          {blog?.BlogTitle || "Untitled Blog"}
-        </h1>
-
-        <div className="prose prose-lg max-w-none text-gray-700 whitespace-pre-line">
-          {blog?.BlogContent || "No content available"}
+            <div className="flex flex-wrap items-center gap-4 text-sm md:text-base text-gray-600">
+              <span className="flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                {publishDate || "Unknown date"}
+              </span>
+              {readingTime > 0 && (
+                <span className="flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  {readingTime} min read
+                </span>
+              )}
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Content Section */}
+      <div className="max-w-full mt-1 mx-auto px-4 md:px-8 py-10 md:py-16 -mt-16 relative z-30">
+        <div className="bg-white rounded-2xl shadow-sm p-6 md:p-10 border border-gray-100">
+          {/* Blog Content */}
+          <div className="prose prose-lg max-w-none text-gray-700 whitespace-pre-line">
+            <p className="" style={{ fontSize: '1.125rem', lineHeight: '1.95rem' , letterSpacing: '0.01em'}}>
+              {blog?.BlogContent || "No content available"}
+            </p>
+          </div>
+
+          {/* Interaction Buttons */}
+          <div className="mt-12 flex flex-wrap gap-4 border-t border-gray-100 pt-8">
+            <button
+              onClick={() => router.back()}
+              className="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-lg transition duration-300 flex items-center gap-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+              </svg>
+              Go Back
+            </button>
+
+            <button
+              onClick={handleShare}
+              className="px-5 py-2.5 bg-blue-100 hover:bg-blue-200 text-blue-700 font-medium rounded-lg transition duration-300 flex items-center gap-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+              </svg>
+              {copied ? "Link Copied!" : "Share Article"}
+            </button>
+
+            <button
+              className="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-lg transition duration-300 flex items-center gap-2 ml-auto"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
+              </svg>
+              Save for Later
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* "Read Next" Section */}
+      <div className="max-w-6xl mx-auto px-4 md:px-8 py-10 md:py-16">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-bold text-gray-800">Read Next</h2>
+          <button
+            onClick={() => router.push('/Blog')}
+            className="text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
+          >
+            View all
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[1, 2, 3].map((item) => (
+            <div key={item} className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300">
+              <div className="h-48 bg-gray-200"></div>
+              <div className="p-5">
+                <div className="flex flex-wrap gap-2 mb-3">
+                  <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">Tag</span>
+                </div>
+                <h3 className="font-bold text-gray-800 mb-2 line-clamp-2">Blog post title that might be long and wrap to two lines</h3>
+                <p className="text-sm text-gray-500">Jun 28, 2025 • 5 min read</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Floating Scroll-to-Top Button */}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className="fixed bottom-8 right-8 bg-white border border-gray-200 rounded-full p-3 shadow-lg hover:bg-gray-50 transition-colors duration-200"
+        aria-label="Scroll to top"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+          <path fillRule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clipRule="evenodd" />
+        </svg>
+      </button>
     </div>
   );
 };

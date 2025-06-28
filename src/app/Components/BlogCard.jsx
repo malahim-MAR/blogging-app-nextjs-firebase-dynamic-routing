@@ -198,7 +198,7 @@ const BlogCard = () => {
                 <img
                   src={blog.BlogImageLink || "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop"}
                   alt={blog.BlogTitle}
-                  className="w-full h-full object-cover object-center"
+                  className="w-full h-full my-10 py-10 object-cover object-center"
                   onError={(e) => {
                     e.target.src = "https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=2070&auto=format&fit=crop";
                   }}
@@ -237,7 +237,9 @@ const BlogCard = () => {
                     {
 
                       blog.BlogContent.slice(0, 1200)
+
                     }
+                    ...
                     {/* {blog.BlogContent.split('\n').map((paragraph, i) => (
                       <p key={i} className="mb-4">
                         {paragraph}
