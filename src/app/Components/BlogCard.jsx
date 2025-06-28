@@ -99,6 +99,7 @@ import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../lib/firebase";
 import { Inter } from 'next/font/google';
+import Link from "next/link";
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'] });
 
@@ -245,9 +246,15 @@ const BlogCard = () => {
                   </div>
 
                   <div className="flex flex-wrap gap-4">
-                    <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md">
+                    {/* <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md">
                       Read Full Article
-                    </button>
+                    </button> */}
+
+                    <Link href={`/Blog/${blog.BlogId}`} className="flex-1">
+                      <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md">
+                        Read Full Article
+                      </button>
+                    </Link>
                     <button className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                       Save for Later
                     </button>

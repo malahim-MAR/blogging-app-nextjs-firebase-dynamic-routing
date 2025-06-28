@@ -276,6 +276,7 @@ const Page = () => {
     setLoading(true);
     try {
       await addDoc(collection(db, "MyBlogs"), {
+        BlogId: Math.floor(Math.random() * 1000000) + 1,
         BlogTitle: title,
         BlogImageLink: imageLink,
         BlogTags: selectedTags,
