@@ -1,4 +1,4 @@
-// // src/app/Blog/[blogId]/page.jsx
+// // src/app/Blog/[blogId]/Page.jsx
 // import { collection, query, where, getDocs } from "firebase/firestore";
 // import { db } from "../../lib/firebase";
 
@@ -23,7 +23,7 @@
 //   return doc.data();
 // }
 
-// export default async function page({ params }) {
+// export default async function Page({ params }) {
 //   const { blogId } = params;
 //   const blogPost = await getBlogPost(blogId);
 
@@ -53,7 +53,7 @@ import { useParams, useRouter } from "next/navigation";
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '500', '600', '700'] });
 
-const page = () => {
+const Page = () => {
   const params = useParams(); // Get all URL parameters
   const router = useRouter();
   const [blog, setBlog] = useState(null);
@@ -62,8 +62,10 @@ const page = () => {
 
   // Safely get blogId from parameters
   // const blogId = params?.id;
-  const { id } = params();
-  const blogId = parseInt(id); // OR just use: const blogId = id; if BlogId is a string
+  const id = params?.id;
+  const blogId = parseInt(id); // ✅ convert to number
+
+  console.log("params from useParams:", useParams());
 
   useEffect(() => {
     // Ensure blogId is present before querying
@@ -176,4 +178,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
