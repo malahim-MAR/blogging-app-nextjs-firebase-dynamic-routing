@@ -39,7 +39,7 @@ const Navbar = () => {
   const navItems = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    { name: "Politics Blogs", path: "/category/politics" },
+    { name: "Politics Blogs", path: "/PoliticalBlogs" },
     { name: "Sports Blogs", path: "/category/sports" },
     { name: "Social Blogs", path: "/category/social" },
     { name: "Contact Us", path: "/contact" },
@@ -89,13 +89,13 @@ const Navbar = () => {
             </button>
 
             {/* Create Blog Button */}
-            <Link
+            {/* <Link
               href="/NewBlog"
               className="hidden md:flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg"
             >
               <FiEdit className="mr-2" />
               <span>Create Post</span>
-            </Link>
+            </Link> */}
 
             {/* Profile */}
             <Link
