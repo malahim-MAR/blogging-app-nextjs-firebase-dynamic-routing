@@ -38,14 +38,14 @@ const Navbar = () => {
 
   const navItems = [
     { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
+    { name: "About Us", path: "/about" },
     { name: "Politics ", path: "/PoliticalBlogs" },
-    { name: "Travel ", path: "/TravelBlogs" },
-    { name: "Politics", path: "/PoliticalBlogs" },
-    { name: "Politics", path: "/PoliticalBlogs" },
-    { name: "Sports ", path: "/category/sports" },
-    { name: "Social ", path: "/category/social" },
-    { name: "Contact Us", path: "/contact" },
+    { name: "Travel & Tour ", path: "/TravelBlogs" },
+    { name: "Sports", path: "/SportsBlogs" },
+    { name: "Technology & AI", path: "/TechBlogs" },
+    { name: "Business & Corporates", path: "/BuisnessBlogs" },
+    { name: "Lifestyle & Daily", path: "/LifestyleBlogs" },
+    { name: "Health & Care", path: "/HealthBlogs" },
   ];
 
   return (

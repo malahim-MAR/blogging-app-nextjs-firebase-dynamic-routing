@@ -52,7 +52,7 @@ const Page = () => {
 
             // Case-insensitive matching
             return tags.some(tag =>
-                tag.trim().toLowerCase() === "technology & ai"
+                tag.trim().toLowerCase() === "lifestyle"
             );
         });
     };
