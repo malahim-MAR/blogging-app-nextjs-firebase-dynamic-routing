@@ -41,13 +41,13 @@ const Page = () => {
   const filterPoliticalBlogs = () => {
     return blogData.filter(blog => {
       const tags = blog.BlogTags || [];
-      const processedTags = Array.isArray(tags) 
-        ? tags 
-        : typeof tags === 'string' 
+      const processedTags = Array.isArray(tags)
+        ? tags
+        : typeof tags === 'string'
           ? tags.split(',').map(tag => tag.trim().toLowerCase())
           : [];
-          
-      return processedTags.includes("political");
+
+      return processedTags.includes("Travel");
     });
   };
 
@@ -55,10 +55,10 @@ const Page = () => {
 
   return (
     <div>
-      <BlogCard 
-        blogs={politicalBlogs} 
-        loading={loading} 
-        error={error} 
+      <BlogCard
+        blogs={politicalBlogs}
+        loading={loading}
+        error={error}
       />
     </div>
   );

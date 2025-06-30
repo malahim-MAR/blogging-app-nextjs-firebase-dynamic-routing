@@ -39,9 +39,12 @@ const Navbar = () => {
   const navItems = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    { name: "Politics Blogs", path: "/PoliticalBlogs" },
-    { name: "Sports Blogs", path: "/category/sports" },
-    { name: "Social Blogs", path: "/category/social" },
+    { name: "Politics ", path: "/PoliticalBlogs" },
+    { name: "Travel ", path: "/TravelBlogs" },
+    { name: "Politics", path: "/PoliticalBlogs" },
+    { name: "Politics", path: "/PoliticalBlogs" },
+    { name: "Sports ", path: "/category/sports" },
+    { name: "Social ", path: "/category/social" },
     { name: "Contact Us", path: "/contact" },
   ];
 
