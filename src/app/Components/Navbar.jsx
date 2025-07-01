@@ -38,7 +38,6 @@ const Navbar = () => {
 
   const navItems = [
     { name: "Home", path: "/" },
-    { name: "About Us", path: "/About" },
     { name: "Politics ", path: "/PoliticalBlogs" },
     { name: "Travel & Tour ", path: "/TravelBlogs" },
     { name: "Sports", path: "/SportsBlogs" },
@@ -50,7 +49,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed w-full z-50 transition-all duration-300 ${scrolled
+      className={` w-full h-auto z-50 transition-all duration-300 ${scrolled
         ? "bg-white shadow-md py-2"
         : "bg-white/90 backdrop-blur-sm py-4"
         }`}
