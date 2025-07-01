@@ -2,7 +2,6 @@ import Image from "next/image";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import AllBlogs from "./Components/AllBlogs";
-import Slideshow from "./Components/Slideshow";
 
 export default function Home() {
   return (

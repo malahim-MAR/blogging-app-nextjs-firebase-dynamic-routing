@@ -36,9 +36,9 @@ const BlogCard = ({ blogs, loading, error }) => {
   );
 
   return (
-    <div className={`snap-container h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth scrollbar-hide pt-10 ${inter.className}`}>
+    <div className={`snap-container h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth scrollbar-hide  ${inter.className}`}>
       {blogs.length === 0 ? (
-        <div className="h-screen flex flex-col items-center justify-center snap-start bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="h-screen flex flex-col items-center justify-center ">
           <div className="text-center max-w-md p-6">
             <svg className="w-24 h-24 text-gray-300 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
