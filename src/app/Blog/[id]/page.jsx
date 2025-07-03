@@ -72,7 +72,7 @@ const Page = () => {
   // Fetch latest blogs
   useEffect(() => {
     if (!blogId) return;
-    
+
     const fetchLatestBlogs = async () => {
       try {
         const q = query(
@@ -326,10 +326,10 @@ const Page = () => {
                 year: 'numeric'
               });
               const nextReadingTime = calculateReadingTime(nextBlog.BlogContent);
-              
+
               return (
-                <div 
-                  key={nextBlog.id} 
+                <div
+                  key={nextBlog.id}
                   className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300 cursor-pointer"
                   onClick={() => router.push(`/Blog/${nextBlog.BlogId}`)}
                 >
