@@ -52,7 +52,7 @@ const Page = () => {
 
             // Case-insensitive matching
             return tags.some(tag =>
-                tag.trim().toLowerCase() === "Business"
+                tag.trim().toLowerCase() === "business"
             );
         });
     };
