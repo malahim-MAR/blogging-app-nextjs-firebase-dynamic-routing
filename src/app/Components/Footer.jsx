@@ -1,5 +1,5 @@
 import React from "react";
-import { FiFacebook, FiTwitter, FiInstagram, FiLinkedin, FiYoutube, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
+import { FiFacebook, FiTwitter, FiInstagram, FiLinkedin, FiYoutube, FiMail, FiPhone, FiMapPin, FiGithub } from "react-icons/fi";
 import Link from "next/link";
 
 const Footer = () => {
@@ -30,20 +30,20 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gradient-to-b from-gray-900 to-black text-white pt-16 pb-8">
+    <footer className="bg-gradient-to-b from-gray-50 to-gray-100 text-gray-800 pt-16 pb-8 border-t mt-10 border-gray-200">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand Info */}
           <div className="lg:col-span-1">
             <div className="flex items-center mb-6">
-              <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold text-xl p-2 rounded-lg mr-2">
+              <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold text-xl p-2 rounded-lg mr-2">
                 BH
               </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent">
                 BlogHub
               </span>
             </div>
-            <p className="text-gray-400 mb-6 leading-relaxed">
+            <p className="text-gray-600 mb-6 leading-relaxed">
               Bringing you the latest insights on technology, design, and business.
               We publish fresh content daily to keep you informed and inspired.
             </p>
@@ -54,7 +54,7 @@ const Footer = () => {
                   key={index}
                   href={social.url}
                   aria-label={social.label}
-                  className="bg-gray-800 hover:bg-blue-600 transition-all p-3 rounded-full"
+                  className="bg-white hover:bg-blue-100 border border-gray-300 transition-all p-3 rounded-full shadow-sm"
                 >
                   {social.icon}
                 </a>
@@ -64,13 +64,13 @@ const Footer = () => {
 
           {/* Categories */}
           <div>
-            <h3 className="text-xl font-bold mb-6 pb-2 border-b border-gray-800">Categories</h3>
+            <h3 className="text-xl font-bold mb-6 pb-2 border-b border-gray-300">Categories</h3>
             <ul className="space-y-3">
               {categories.map((category, index) => (
                 <li key={index}>
                   <Link
                     href={category.path}
-                    className="text-gray-400 hover:text-white transition-colors flex items-center"
+                    className="text-gray-600 hover:text-indigo-700 transition-colors flex items-center"
                   >
                     <span className="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
                     {category.name}
@@ -82,13 +82,13 @@ const Footer = () => {
 
           {/* Useful Links */}
           <div>
-            <h3 className="text-xl font-bold mb-6 pb-2 border-b border-gray-800">Quick Links</h3>
+            <h3 className="text-xl font-bold mb-6 pb-2 border-b border-gray-300">Quick Links</h3>
             <ul className="space-y-3">
               {usefulLinks.map((link, index) => (
                 <li key={index}>
                   <Link
                     href={link.path}
-                    className="text-gray-400 hover:text-white transition-colors"
+                    className="text-gray-600 hover:text-indigo-700 transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -99,20 +99,20 @@ const Footer = () => {
 
           {/* Contact & Newsletter */}
           <div>
-            <h3 className="text-xl font-bold mb-6 pb-2 border-b border-gray-800">Stay Updated</h3>
+            <h3 className="text-xl font-bold mb-6 pb-2 border-b border-gray-300">Stay Updated</h3>
 
             <div className="mb-6 space-y-4">
               <div className="flex items-start">
-                <FiMail className="text-blue-500 mt-1 mr-3" size={20} />
-                <span className="text-gray-400">contact@bloghub.com</span>
+                <FiMail className="text-blue-600 mt-1 mr-3" size={20} />
+                <span className="text-gray-600">contact@bloghub.com</span>
               </div>
               <div className="flex items-start">
-                <FiPhone className="text-blue-500 mt-1 mr-3" size={20} />
-                <span className="text-gray-400">+1 (555) 123-4567</span>
+                <FiPhone className="text-blue-600 mt-1 mr-3" size={20} />
+                <span className="text-gray-600">+1 (555) 123-4567</span>
               </div>
               <div className="flex items-start">
-                <FiMapPin className="text-blue-500 mt-1 mr-3" size={20} />
-                <span className="text-gray-400">New York, NY 10001, USA</span>
+                <FiMapPin className="text-blue-600 mt-1 mr-3" size={20} />
+                <span className="text-gray-600">New York, NY 10001, USA</span>
               </div>
             </div>
 
@@ -122,12 +122,12 @@ const Footer = () => {
                 <input
                   type="email"
                   placeholder="Your email address"
-                  className="px-4 py-3 w-full rounded-l-lg focus:outline-none text-gray-800"
+                  className="px-4 py-3 w-full rounded-l-lg focus:outline-none text-gray-800 border border-gray-300"
                   required
                 />
                 <button
                   type="submit"
-                  className="bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 px-4 py-3 rounded-r-lg font-medium transition-all"
+                  className="bg-gradient-to-r from-blue-600 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 px-4 py-3 rounded-r-lg font-medium text-white transition-all"
                 >
                   Join
                 </button>
@@ -136,12 +136,41 @@ const Footer = () => {
           </div>
         </div>
 
+        {/* Developer Credits */}
+        <div className="border-t border-gray-300 pt-8 pb-6 text-center">
+          <div className="flex flex-col items-center justify-center">
+            <p className="text-gray-600 mb-4">
+              Developed by <span className="font-semibold text-indigo-700">Sardar MalaHim</span>
+            </p>
+            <div className="flex space-x-4 justify-center">
+              <a 
+                href="https://instagram.com/malahim.dev" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-white hover:bg-pink-50 border border-gray-300 transition-all p-3 rounded-full shadow-sm flex items-center"
+                aria-label="Instagram"
+              >
+                <FiInstagram className="text-pink-600" size={18} />
+              </a>
+              <a 
+                href="https://github.com/Malahim-MAR" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-white hover:bg-gray-100 border border-gray-300 transition-all p-3 rounded-full shadow-sm flex items-center"
+                aria-label="GitHub"
+              >
+                <FiGithub className="text-gray-800" size={18} />
+              </a>
+            </div>
+          </div>
+        </div>
+
         {/* Copyright */}
-        <div className="border-t border-gray-800 pt-8 text-center">
-          <p className="text-gray-500">
+        <div className="border-t border-gray-300 pt-6 text-center">
+          <p className="text-gray-600">
             © {currentYear} BlogHub. All rights reserved.
           </p>
-          <p className="text-gray-600 text-sm mt-2">
+          <p className="text-gray-500 text-sm mt-2">
             Designed and built with ❤️ for content creators
           </p>
         </div>
